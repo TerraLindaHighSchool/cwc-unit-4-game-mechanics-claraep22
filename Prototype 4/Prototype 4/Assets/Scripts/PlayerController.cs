@@ -6,12 +6,10 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody playerRb;
     private GameObject focalPoint;
+    private float powerupStrength = 15f;
     public float speed = 5.0f;
     public bool hasPowerup;
-    private float powerupStrength = 15.0 private void OnFailedToConnect(NetworkConnectionError error)
-    {
 
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +31,7 @@ public class PlayerController : MonoBehaviour
         {
             hasPowerup = true;
             Destroy(other.gameObject);
-
+            StartCoroutine(PowerupCountdownRoutine());
         }
     }
 
@@ -48,5 +46,10 @@ public class PlayerController : MonoBehaviour
             enemyRigidbody.AddForce(awayFromPlayer * powerupStrength, ForceMode.Impulse);
         }
 
+    }
+    IEnumerator PowerupCountdownRoutine()
+    {
+        yield return new WaitForSeconds(7);
+        hasPowerup = false;
     }
 }
